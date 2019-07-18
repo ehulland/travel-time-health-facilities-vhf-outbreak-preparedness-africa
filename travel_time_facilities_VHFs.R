@@ -338,7 +338,7 @@ generate_tt_thresh<-function(country, dir, pathogen, threshold="median"){
   
   # ------------------------------------------------------------------------------------------------------------------------------------------------------
   #For the countries with unpopulated areas, load in worldpop raster of places where population <10pp / 5 x 5 km grid-cell, set value=0 in those locations
-  worldpop <- raster(paste0(dir,'/mask_master.tif'), vals=1)
+  worldpop <- raster(paste0(dir,'/worldpop_10pp.tif'), vals=1)
   values(worldpop)[values(worldpop)==Inf]<-NA #removing infinite values
   values(worldpop)[values(worldpop)==-Inf]<-NA #removing infinite values
   # ---------------------------------------------------------------------------------

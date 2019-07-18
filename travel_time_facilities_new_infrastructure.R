@@ -113,7 +113,7 @@ library(gridExtra)
   
   # ------------------------------------------------------------------------------------------------------------------------------------------------------
   #For the countries with unpopulated areas, load in worldpop raster of places where population <10pp / 5 x 5 km grid-cell, set value=0 in those locations
-  worldpop <- raster(paste0(dir,'/mask_master.tif'), vals=1)
+  worldpop <- raster(paste0(dir,'/worldpop_10pp.tif'), vals=1)
   values(worldpop)[values(worldpop)==Inf]<-NA #removing infinite values
   values(worldpop)[values(worldpop)==-Inf]<-NA #removing infinite values
   # ---------------------------------------------------------------------------------
@@ -155,7 +155,7 @@ original_mean<-cellStats(access_raster, stat='mean')
 original_sum<-cellStats(access_raster, stat='sum')
 #get original person-weighted estimates
 #read-in a version of the worldpopulation data with population per 1x1 km grid and crop
-worldpop <- raster(paste0(dir, '/population/worldpop_total_1y_2015_00_00.tif'))
+worldpop <- raster(paste0(dir, '/worldpop.tif'))
 worldpop<-crop(worldpop, extent(access_raster))
 worldpop<-raster::mask(worldpop, access_raster)
 ptt<-vhf_access_raster*worldpop
