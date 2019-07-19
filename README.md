@@ -10,30 +10,30 @@ This file generates the function `generate_tt` needed to produce the health faci
 
 ![Figure 1A](Maps/CAR_travel_time_raw.PNG)
 
-![Figure 1B](../Maps/CAR_travel_time_percentage.PNG)
+![Figure 1B](Maps/CAR_travel_time_percentage.PNG)
 
 
 ## 2) Travel_Time_to_AtRisk_Pixel.R
 
 This file generates the function `generate_at_risk_areas` to produce access rasters to the most accessible grid-cell (location) with environmental suitability for the pathogen of interest ("at-risk" locations) from any other location ("not-at-risk" locations) in a country.  It also includes functions to plot these maps either overall `plot_at_risk_map_all` or restricted only to populated areas `plot_at_risk_map_pop`. 
 
-![Figure 2A](../Maps/Botswana_travel_time_atrisk_inner.PNG)
+![Figure 2A](Maps/Botswana_travel_time_atrisk_inner.PNG)
 
-![Figure 2B](../Maps/Botswana_travel_time_atrisk_outer.PNG)
+![Figure 2B](Maps/Botswana_travel_time_atrisk_outer.PNG)
 
 
 ## 3) Travel_Time_Facilities_New_Infrastructure.R
 
 This file uses many of the components of the function generate_tt to first generate the accessibility raster for a given pathogen (we used "Any" - or at least one VHF, but could be changed) and then estimates the mean reductions in travel times from this original raster if we were to place new infrastructure in any location in a country. We consider this both overall (i.e. "raw" reduction) and we also compute the population-weighted reduction in travel times to account for population affected in each location. This file culminates by producing two maps - one plotting the raw reductions and one plotting the weighted reductions.  
 
-![Figure 3A](../Maps/Ethiopia_travel_time_reduction_raw.PNG)
+![Figure 3A](Maps/Ethiopia_travel_time_reduction_raw.PNG)
 
-![Figure 3B](../Maps/Ethiopia_travel_time_reduction_weighted.PNG)
+![Figure 3B](Maps/Ethiopia_travel_time_reduction_weighted.PNG)
 
 
 ## 4) Hosptial_Table_Ranking.R
 
 This file uses the functions produced by generate_at_risk_areas to produce a table of hospitals in a country most accessible (i.e. with the lowest travel times) to the areas at-risk for a pathogen of choice. Users can specify the pathogen, country, and number of results displayed in the table (default n=25). The resulting table is color coded by the hours of travel time to match the maps produced in the manuscript, and provides the hospital name and first administrative unit. 
 
-![Figure 4](../Maps/Angola_ranked_hospital_list.PNG)
+![Figure 4](Maps/Angola_ranked_hospital_list.PNG)
 
