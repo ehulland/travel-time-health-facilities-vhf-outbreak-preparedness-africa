@@ -8,8 +8,9 @@ This repo contains the codes used to generate the raster files used to create th
 
 This file generates the function `generate_tt` needed to produce the health facility accessibility rasters for generating the maps, with options to specify the country, directory, and pathogen of interest (Ebola, Marburg, Lassa, CCHF, or at least one VHF ("Any")). A second function `generate_tt_thresh` produces the same raster, with the option to specify the threshold used for the pathogen of interest (min for the minimum value, p5 for the 5th percentile, median for the median value, p95 for the 95th percentile, or max for the maximum value. Other auxiliary functions for full performance are also included.
 
-![Figure 1A](https://github.com/ehulland/travel-time-health-facilities-vhf-outbreak-preparedness-africa/Maps/CAR_travel_time_raw.PNG)
-![Figure 1B](https://github.com/ehulland/travel-time-health-facilities-vhf-outbreak-preparedness-africa/Maps/CAR_travel_time_percentage.png)
+![Figure 1A](https://raw.githubusercontent.com/ehulland/travel-time-health-facilities-vhf-outbreak-preparedness-africa/Maps/CAR_travel_time_raw.PNG)
+![Figure 1B](https://raw.githubusercontent.com/ehulland/travel-time-health-facilities-vhf-outbreak-preparedness-africa/Maps/CAR_travel_time_percentage.PNG)
+
 
 ## 2) Travel_Time_to_AtRisk_Pixel.R
 
