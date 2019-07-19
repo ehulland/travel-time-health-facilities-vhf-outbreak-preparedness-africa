@@ -35,5 +35,5 @@ This file uses many of the components of the function generate_tt to first gener
 
 This file uses the functions produced by generate_at_risk_areas to produce a table of hospitals in a country most accessible (i.e. with the lowest travel times) to the areas at-risk for a pathogen of choice. Users can specify the pathogen, country, and number of results displayed in the table (default n=25). The resulting table is color coded by the hours of travel time to match the maps produced in the manuscript, and provides the hospital name and first administrative unit. 
 
-![Figure 4](Maps/Angola_ranked_hospital_list.PNG)
+![Figure 4](Maps/Congo_ranked_hospital_list.PNG)
 
