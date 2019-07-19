@@ -17,7 +17,7 @@ This file generates the function `generate_tt` needed to produce the health faci
 
 This file generates the function `generate_at_risk_areas` to produce access rasters to the most accessible grid-cell (location) with environmental suitability for the pathogen of interest ("at-risk" locations) from any other location ("not-at-risk" locations) in a country.  It also includes functions to plot these maps either overall `plot_at_risk_map_all` or restricted only to populated areas `plot_at_risk_map_pop`. 
 
-![Figure 2A](../Maps/Botswana_travel_time_atrisk_inner.PNG)
+![Figure 2A](https://github.com/ehulland/travel-time-health-facilities-vhf-outbreak-preparedness-africa/Maps/Botswana_travel_time_atrisk_inner.PNG)
 
 ![Figure 2B](../Maps/Botswana_travel_time_atrisk_outer.PNG)
 
