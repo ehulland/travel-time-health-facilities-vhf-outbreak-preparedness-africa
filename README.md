@@ -53,4 +53,4 @@ A example of a plot made with *weighted_int_travel* from the manuscript includes
 
 ![Figure 4B](Maps/Ethiopia_travel_time_reduction_weighted.PNG)
 
-### 1) Travel_Time_Plotting.R
+### 2) Travel_Time_Plotting.R
