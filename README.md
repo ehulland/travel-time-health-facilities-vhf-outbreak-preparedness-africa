@@ -20,7 +20,7 @@ This file generates the functions needed to produce the rasters used in the manu
 
 Examples of plots made with *pathogen_access_raster* from the manuscript include the following raw and percentile ranked travel times to health facilities from locations at-risk for at least one VHF in Central African Republic:
 
-![Figure 1A](Maps/CAR_travel_time_raw.PNG)
+![Figure 1A](Maps/CAR_travel_time_raw.PNG |width=10, height=6)
 
 ![Figure 1B](Maps/CAR_travel_time_percentage.PNG)
 
