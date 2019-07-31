@@ -2,13 +2,23 @@
 
 This repo contains the codes used to generate the raster files used to create the maps in the manuscript "Travel time to health facilities in areas of viral hemorrhagic fever outbreak potential: maps for guiding local preparedness and response". 
 
-## The repo contains 4 files:
+## The repo contains 2 files:
 
-## 1) Travel_Time_Facilities_VHFs.R
+## 1) Travel_Time_Functions.R
 
-This file generates the function `generate_tt` needed to produce the health facility accessibility rasters for generating the maps, with options to specify the country, directory, and pathogen of interest (Ebola, Marburg, Lassa, CCHF, or at least one viral hemorrhagic fever (VHF) ("Any")). A second function `generate_tt_thresh` produces the same raster, with the option to specify the threshold used for the pathogen of interest (min for the minimum value, p5 for the 5th percentile, median for the median value, p95 for the 95th percentile, or max for the maximum value. Other auxiliary functions for full performance are also included.
+This file generates the functions needed to produce the rasters used in the manuscript. Each of the functions is described subsequently:
 
-Example plots generated include the following raw and percentile ranked travel times to health facilities from locations at-risk for at least one VHF in Central African Republic:
+`binary_threshold` : Converts a raster with continuous values into dichotomous presence (1) or absence (0) based on a user-defined threshold
+
+`gen_mask` : Takes two rasters (or the same raster, twice) as inputs, and converts the values of the first raster to NA where the values are 0 in the second raster
+
+`only_country` : Takes two rasters (or the same raster, twice) as inputs, and masks out values of the first raster to NA where the values are Inf in the second
+
+`mask_lake` : Requires a country, directory, and shapefile of lakes (usually >100km) cropped to the country of interest, and returns a shapefile with the lakes cropped out in the directory provided
+
+`generate_tt` : Requires a specified country and directory as well as a database of health facilities with latitude (named Latitude, numeric) and longitude (named Longitude, numeric), at minimum (but could contain other columns), and a raster file at 5x5-km resolution with binary classification of presence / absence of one or more pathogens. Can use `binary_threshold` to produce the binary classification, and may want to consider using `mask_lake` to produce a shapefile with lakes removed for calculating travel times (function will search for this file if it exists, but will not throw an error if it doesn't). This function returns raster *pathogen_access_raster* (5x5-km resolution) of travel times to the most accessible health facility from any grid-cell at risk for the pathogen specified. 
+
+Examples of plots made with *pathogen_access_raster* from the manuscript include the following raw and percentile ranked travel times to health facilities from locations at-risk for at least one VHF in Central African Republic:
 
 ![Figure 1A](Maps/CAR_travel_time_raw.PNG)
 
