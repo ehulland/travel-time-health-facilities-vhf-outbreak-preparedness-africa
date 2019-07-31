@@ -4,7 +4,7 @@ This repo contains the codes used to generate the raster files used to create th
 
 ## The repo contains 2 files:
 
-## 1) Travel_Time_Functions.R
+### 1) Travel_Time_Functions.R
 
 This file generates the functions needed to produce the rasters used in the manuscript. Each of the functions is described subsequently:
 
@@ -24,32 +24,31 @@ Examples of plots made with *pathogen_access_raster* from the manuscript include
 
 ![Figure 1B](Maps/CAR_travel_time_percentage.PNG)
 
+`generate_at_risk_areas` : Requires a specified country and directory as well as a database of health facilities with latitude (named Latitude, numeric) and longitude (named Longitude, numeric), at minimum (but could contain other columns), and a raster file at 5x5-km resolution with binary classification of presence / absence of one or more pathogens. Can use `binary_threshold` to produce the binary classification, and may want to consider using `mask_lake` to produce a shapefile with lakes removed for calculating travel times (function will search for this file if it exists, but will not throw an error if it doesn't). This function returns raster *pathogen.risk.access* (5x5-km resolution) of travel times to the most accessible at-risk location for the pathogen specified from any grid-cell not-at-risk. 
 
-## 2) Travel_Time_to_AtRisk_Pixel.R
-
-This file generates the function `generate_at_risk_areas` to produce access rasters to the most accessible grid-cell (location) with environmental suitability for the pathogen of interest ("at-risk" locations) from any other location ("not-at-risk" locations) in a country.  It also includes functions to plot these maps either overall `plot_at_risk_map_all` or restricted only to populated areas `plot_at_risk_map_pop`. 
-
-Example plots generated include travel time to locations at-risk for at least one VHF both internal to Botswana and international (using a buffer of 500km) via cross-border travel or migration: 
+Examples of plots made with *pathogen.risk.access* from the manuscript include the following domestic and international travel times to areas-at-risk from locations not-at-risk in Botswana:
 
 ![Figure 2A](Maps/Botswana_travel_time_atrisk_inner.PNG)
 
 ![Figure 2B](Maps/Botswana_travel_time_atrisk_outer.PNG)
 
+`generate_hospital_table` : Requires a specified country and directory as well as a database of hospitals only (named hospitals) with latitude (named Latitude, numeric) and longitude (named Longitude, numeric), at minimum (but could contain other columns), the raster *pathogen.risk.access* produced from `generate_at_risk_areas`, and the number of rows in the table you'd like to return (named num.rows). Returns a table called *hosp.table* of length num.rows, as specified in the function,  with travel times to hospitals. 
 
-## 3) Travel_Time_Facilities_New_Infrastructure.R
+An example of the type of figure that could be created using this table is the list of the top 25 hospitals closest to areas-at-risk in the Republic of Congo:
 
-This file uses many of the components of the function generate_tt to first generate the accessibility raster for a given pathogen (we used "Any" - or at least one VHF, but could be changed) and then estimates the mean reductions in travel times from this original raster if we were to place new infrastructure in any location in a country. We consider this both overall (i.e. "raw" reduction) and we also compute the population-weighted reduction in travel times to account for population affected in each location. This file culminates by producing two maps - one plotting the raw reductions and one plotting the weighted reductions.  
+![Figure 3](Maps/Congo_ranked_hospital_list.PNG)
 
-Example plots generated include the raw and weighted reductions in travel time for Ethiopia based on the current health facility profile in-country:
+`generate_new_infrastructure_split` : Requires a specified country and directory as well as a database of health facilities with latitude (named Latitude, numeric) and longitude (named Longitude, numeric), at minimum (but could contain other columns), and a raster file at 5x5-km resolution with binary classification of presence / absence of one or more pathogens. Can use `binary_threshold` to produce the binary classification, and may want to consider using `mask_lake` to produce a shapefile with lakes removed for calculating travel times (function will search for this file if it exists, but will not throw an error if it doesn't). This function converts the travel times to nearest health facility raster into a dataset of points - one per 5x5-km grid-cell - and then iterates over each point by placing new infrastructure in that point and recalculating travel times. Each country has it's points divided into segments of 1000, and this function iterates over each point in each segment. Returns a series of .RDS files, saved in a sub-folder (ROutputs) of "dir", of each set of 1000 points as a data frame with longitude (x), latitude (y), original mean (mean) of travel times, original mean of population-weighted travel times (ptt) as well as the reduction in travel times for that location - raw (mean_diff) and population-weighted (ptt_mean)
+**WARNING: This step can be really time and computational intensive - recommend running in parallel**
 
-![Figure 3A](Maps/Ethiopia_travel_time_reduction_raw.PNG)
+`generate_new_infrastructure_raw` : Requires a specified country and directory where the .RDS files from `generate_new_infrastructure_split` are saved (not including the sub-folder **ROutputs** in directory path), as well as a database of health facilities with latitude (named Latitude, numeric) and longitude (named Longitude, numeric), at minimum (but could contain other columns), and a raster file at 5x5-km resolution with binary classification of presence / absence of one or more pathogens. Can use `binary_threshold` to produce the binary classification, and may want to consider using `mask_lake` to produce a shapefile with lakes removed for calculating travel times (function will search for this file if it exists, but will not throw an error if it doesn't). This function returns raster *raw_int_travel* (5x5-km resolution) of raw reduction in travel times from the original assessment, per grid-cell, in minutes.
 
-![Figure 3B](Maps/Ethiopia_travel_time_reduction_weighted.PNG)
+A example of a plot made with *raw_int_travel* from the manuscript includes a map of Ethiopia with the "raw" reduction in travel times per grid-cell:
 
+![Figure 4A](Maps/Ethiopia_travel_time_reduction_raw.PNG)
 
-## 4) Hosptial_Table_Ranking.R
+`generate_new_infrastructure_weighted` : Requires a specified country and directory where the .RDS files from `generate_new_infrastructure_split` are saved (not including the sub-folder **ROutputs** in directory path), as well as a database of health facilities with latitude (named Latitude, numeric) and longitude (named Longitude, numeric), at minimum (but could contain other columns), and a raster file at 5x5-km resolution with binary classification of presence / absence of one or more pathogens. In addition, this function requires a raster of the population per grid-cell (at 5x5-km), cropped to the country of interest. May want to consider using `mask_lake` to produce a shapefile with lakes removed for calculating travel times (function will search for this file if it exists, but will not throw an error if it doesn't). This function returns raster *weighted_int_travel* (5x5-km resolution) of population-weighted reduction in travel times from the original assessment, per grid-cell, in minutes.
 
-This file uses the functions produced by generate_at_risk_areas to produce a table of hospitals in a country most accessible (i.e. with the lowest travel times) to the areas at-risk for a pathogen of choice. Users can specify the pathogen, country, and number of results displayed in the table (default n=25). The resulting table is color coded by the hours of travel time to match the maps produced in the manuscript, and provides the hospital name and first administrative unit. Here we provide a demonstration for Congo:
+A example of a plot made with *weighted_int_travel* from the manuscript includes a map of Ethiopia with the population-weighted reduction in travel times per grid-cell:
 
-![Figure 4](Maps/Congo_ranked_hospital_list.PNG)
-
+![Figure 4B](Maps/Ethiopia_travel_time_reduction_weighted.PNG)
