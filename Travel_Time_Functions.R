@@ -203,9 +203,9 @@ generate_new_infrastructure_split<-function(country, dir, pathogen_map, worldpop
   proj4string(dataset) <- proj4string(loc_shp)
   points<-as.matrix(dataset@coords)
   # create initial access raster of time to most accessible health facility using least cost algorithm
-  access.raster<-accCost(T.GC, points)
+  access_raster1<-accCost(T.GC, points)
   #interpolate access.raster to 5km by 5km and crop to VHF map
-  access_raster <- crop(projectRaster(access.raster, pathogen_map, method = 'bilinear'), extent(pathogen_map))
+  access_raster <- crop(projectRaster(access_raster1, pathogen_map, method = 'bilinear'), extent(pathogen_map))
   #Mask out any areas outside of the country
   access.raster <<- only_country(access_raster, access_raster)
   #convert the access.raster to points and into a dataframe, first removing infinite values
@@ -262,7 +262,7 @@ generate_new_infrastructure_split<-function(country, dir, pathogen_map, worldpop
       new_access.raster<-gdistance::accCost(T.GC, new_points)
       
       #apply the vhf masks as above
-      new_access_raster <- crop(projectRaster(new_access.raster, access.raster, method = 'bilinear'), extent(access.raster))
+      new_access_raster <- crop(projectRaster(new_access.raster, pathogen_map, method = 'bilinear'), extent(pathogen_map))
       #convert all Inf values to NA
       new_access_raster[values(new_access_raster)==Inf]<-NA
       new_access<-new_access_raster
