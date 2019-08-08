@@ -79,7 +79,7 @@ generate_tt<-function(country, dir, pathogen_map, healthcare){
   #interpolate access.raster to 5km by 5km and crop to VHF map
   access_raster <- crop(projectRaster(access.raster, pathogen_map, method = 'bilinear'), extent(pathogen_map))
   #Mask out locations without VHF presence using gen_mask function
-  access_raster2<- gen_mask(access_raster, ebov_presence)
+  access_raster2<- gen_mask(access_raster, pathogen_map)
   #Mask out any areas outside of the country
   pathogen_access_raster <<- only_country(access_raster2, access_raster2)
   return(pathogen_access_raster)
