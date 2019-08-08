@@ -54,7 +54,7 @@ admin0sub<-crop(admin0, extent(xlims, ylims))
 #get standard color scheme using magma color palette and set background to light blue for lakes
 Rev.Magma<-rasterTheme(region=magma(16,direction=-1), panel.background=list(col="light blue"))
 #plot!
-t<-levelplot(access_rasterNP2,par.settings=Rev.Magma,at=lims, margin=FALSE, xlim=xlims, ylim=ylims,ylab="", xlab=list(label=legend_title, cex=1.0, line=1),scales = list(draw = FALSE), colorkey=list(space='bottom'),
+t<-levelplot(pathogen_access_raster2,par.settings=Rev.Magma,at=lims, margin=FALSE, xlim=xlims, ylim=ylims,ylab="", xlab=list(label=legend_title, cex=1.0, line=1),scales = list(draw = FALSE), colorkey=list(space='bottom'),
              main=list(plot_title,side=1,line=0.5,cex=1.2))
 t_plot<-t+layer_(sp.polygons(loc_shp, col="white",fill="white"))+layer_(sp.polygons(out_shp, col=NA, fill="light blue"))
 tt_plot<-t_plot+layer(sp.polygons(admin1, lwd=1, lty=2))+layer_(sp.polygons(admin0sub, lwd=2, fill="white"))
