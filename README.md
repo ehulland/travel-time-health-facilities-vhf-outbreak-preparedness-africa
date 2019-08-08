@@ -54,3 +54,11 @@ A example of a plot made with *weighted_int_travel* from the manuscript includes
 ![Figure 4B](Maps/Ethiopia_travel_time_reduction_weighted.PNG)
 
 ### 2) Travel_Time_Plotting.R
+
+This file provides plotting code with two functions for generating plots similar to those presented in the manuscript using `rasterVis`. Each of the functions is described subsequently:
+
+`plot_tt_hours` : Uses a raster of travel times to health facilities in minutes and returns a plot of travel times in hours in the format of the manuscript. 
+
+`plot_tt_pct` : Uses a raster of travel times to health facilities in minutes and returns a plot of travel times in percentiles in the format of the manuscript.
+
+
