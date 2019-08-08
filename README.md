@@ -1,6 +1,6 @@
-# Travel time to health facilities in areas of viral hemorrhagic fever outbreak potential: maps for guiding local preparedness and response - 2019
+# Travel time to health facilities in areas of outbreak potential: maps for guiding local preparedness and response - 2019
 
-This repo contains the codes used to generate the raster files used to create the maps in the manuscript "Travel time to health facilities in areas of viral hemorrhagic fever outbreak potential: maps for guiding local preparedness and response". 
+This repo contains the codes used to generate the raster files used to create the maps in the manuscript "Travel time to health facilities in areas of outbreak potential: maps for guiding local preparedness and response". 
 
 ## The repo contains 2 files:
 
