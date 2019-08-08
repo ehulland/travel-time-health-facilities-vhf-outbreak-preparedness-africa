@@ -119,7 +119,7 @@ generate_at_risk_areas<-function(country, dir, pathogen_map, healthcare){
   access.raster<-accCost(T.GC, points)
   #interpolate access.raster to 5km by 5km and crop to VHF map
   access_raster <- crop(projectRaster(access.raster, pathogen_map, method = 'bilinear'), extent(pathogen_map))
-
+  access_raster[access_raster ==Inf]<-NA
   #Convert locations with pathogen presence (e.g. any value >0) to points
   pathogenrisk<- rasterToPoints(pathogen_map, 
                                  fun = function(pathogen_map){
