@@ -203,20 +203,24 @@ generate_new_infrastructure_split<-function(country, dir, pathogen_map, worldpop
   access_raster1<-accCost(T.GC, points)
   #interpolate access.raster to 5km by 5km and crop to VHF map
   access_raster <- crop(projectRaster(access_raster1, pathogen_map, method = 'bilinear'), extent(pathogen_map))
+  
+  ##Remote areas without VHFs
+  pathogen_map2<-pathogen_map
+  pathogen_map2[pathogen_map==0]<-NA
+  vhf_access_raster<-access_raster*pathogen_map2
   #Mask out any areas outside of the country
   access.raster <<- only_country(access_raster, access_raster)
   #convert the access.raster to points and into a dataframe, first removing infinite values
   values(access.raster)[values(access.raster)==Inf]<-NA
-  potential_sites<-rasterToPoints(access.raster, spatial = FALSE )
+  potential_sites<-rasterToPoints(access_raster, spatial = FALSE )
   potential_sites<-as.data.frame(potential_sites)
   #this value below will tell you how many iterations of 1000 points you'll need to do
   n <-nrow(potential_sites)
   #generating "original" values based on contemprary assessment
-  original_mean<-cellStats(access.raster, stat='mean')
+  original_mean<-cellStats( vhf_access_raster, stat='mean')
   #get original person-weighted estimates
-  ptt<-access.raster*worldpop
+  ptt<- vhf_access_raster*worldpop
   original_mean_ptt<-cellStats(ptt, stat='mean')
-  potential_sites<-as.data.frame(potential_sites)
   #setting up parameters for iterations
   a<-1000
   n1<-floor(n/1000)
@@ -260,10 +264,13 @@ generate_new_infrastructure_split<-function(country, dir, pathogen_map, worldpop
       
       #apply the vhf masks as above
       new_access_raster <- crop(projectRaster(new_access.raster, pathogen_map, method = 'bilinear'), extent(pathogen_map))
+      pathogen_map2<-pathogen_map
+      pathogen_map2[pathogen_map==0]<-NA
+      new_vhf_access_raster<- new_access_raster*pathogen_map2
       #convert all Inf values to NA
-      new_access_raster[values(new_access_raster)==Inf]<-NA
-      new_access<-new_access_raster
-      new_ptt<-new_access_raster*worldpop
+      new_vhf_access_raster[values(new_vhf_access_raster)==Inf]<-NA
+      new_access<-new_vhf_access_raster
+      new_ptt<-new_access*worldpop
       
       
       zonal_summary$mean[i]<-cellStats(new_access, stat = 'mean')
@@ -378,7 +385,7 @@ generate_new_infrastructure_weighted<-function(country, dir, pathogen_map, world
   #Mask out any areas outside of the country
   access.raster <- only_country(access_raster, access_raster)
   
-    weighted_travel <- rasterize(data.frame(test$x,test$y), access.raster, test$ptt, fun=mean)
+  weighted_travel <- rasterize(data.frame(test$x,test$y), access.raster, test$ptt, fun=mean)
   weighted_travel<-crop(weighted_travel, extent(access.raster))
   weighted_int_travel<<-raster::mask(weighted_travel, access.raster)
   return(weighted_int_travel)
