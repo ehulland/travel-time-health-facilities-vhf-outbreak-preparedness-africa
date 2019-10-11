@@ -10,8 +10,6 @@ This file generates the functions needed to produce the rasters used in the manu
 
 `binary_threshold` : Converts a raster with continuous values into dichotomous presence (1) or absence (0) based on a user-defined threshold
 
-`gen_mask` : Takes two rasters (or the same raster, twice) as inputs, and converts the values of the first raster to NA where the values are 0 in the second raster
-
 `only_country` : Takes two rasters (or the same raster, twice) as inputs, and masks out values of the first raster to NA where the values are Inf in the second
 
 `mask_lake` : Requires a country, directory, and shapefile of lakes (usually >100km) cropped to the country of interest, and returns a shapefile with the lakes cropped out in the directory provided
