@@ -26,11 +26,6 @@ library(stringr)
 binary_threshold <- function(r, thresh) {
   return(calc(r, fun = function(x) ifelse(x >= thresh, 1, 0)))
 }
-# Generic masking function
-gen_mask <- function(r1, r2) {
-  r1[r2 == 0] <- NA
-  return(r1)
-}
 # mask outside of country
 only_country <- function(r1, r2) {
   r1[r2 == Inf] <- NA
@@ -78,8 +73,10 @@ generate_tt<-function(country, dir, pathogen_map, healthcare){
   access.raster<-accCost(T.GC, points)
   #interpolate access.raster to 5km by 5km and crop to VHF map
   access_raster <- crop(projectRaster(access.raster, pathogen_map, method = 'bilinear'), extent(pathogen_map))
-  #Mask out locations without VHF presence using gen_mask function
-  access_raster2<- gen_mask(access_raster, pathogen_map)
+  #Mask out locations without VHF presence
+  pathogen_map2<-pathogen_map
+  pathogen_map2[pathogen_map==0]<-NA
+  access_raster2<- access_raster*pathogen_map2
   #Mask out any areas outside of the country
   pathogen_access_raster <<- only_country(access_raster2, access_raster2)
   return(pathogen_access_raster)
